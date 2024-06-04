@@ -22,6 +22,24 @@ export default function Home() {
 
   const onSubmit = (data: any) => {
     console.log(data);
+
+    try {
+      fetch("https://65b37237770d43aba479c9a7.mockapi.io/api/v1/books/article", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setBooks([...books, data]);
+        });
+    } catch (error) { 
+        console.log(error)
+    }
+
+   
   };
 
   return (
@@ -93,7 +111,9 @@ export default function Home() {
             return (
               <div key={book.id} className="bg-white rounded-md p-3 shadow-md">
                 <p className=" font-semibold text-lg">{book.bookName}</p>
-                <p className="mb-2">{book.author}</p>
+                <p className="mb-2">
+                  <span className=" font font-semibold">Author:</span> {book.author}
+                </p>
                 <hr />
 
                 <p>{book.description}</p>
